@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Getting Started with JSC3DV4</title>
+    </head>
+    <body>
+        <canvas id="cv" width=640 height=480>
+        </canvas>
+        <script type="text/javascript" src="jsc3d.js"></script>
+        <script type="text/javascript" src="jsc3d.touch.js"></script>
+        <input type="file" id="files" name="files[]" multiple />
+<output id="list"></output>
+
+<!--<script>
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>-->
+<style>
+  .thumb {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+  }
+</style>
+
+<input type="file" id="files" name="files[]" multiple />
+<output id="list"></output>
+
+<script>
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+    }
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+        <script type="text/javascript">
+            var viewer = new JSC3D.Viewer(document.getElementById('cv'));
+            viewer.setParameter('SceneUrl',         'files');
+            viewer.setParameter('ModelColor',       '#CAA618');
+            viewer.setParameter('BackgroundColor1', '#E5D7BA');
+            viewer.setParameter('BackgroundColor2', '#383840');
+            viewer.setParameter('RenderMode',       'flat');
+            viewer.init();
+            viewer.update();
+        </script>
+    </body>
+</html>
