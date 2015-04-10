@@ -48,7 +48,7 @@ var JSC3D = JSC3D || {};
 JSC3D.Viewer = function(canvas, parameters) {
 	if(parameters)
 		this.params = {
-			SceneUrl:			parameters.SceneUrl || '', 
+			SceneUrl:			parameters.SceneUrl || 'https://drive.google.com/file/d/0B9CG2iXTlvCUZFZzNXAyb2tCQ1E/view?usp=sharing', 
 			InitRotationX:		parameters.InitRotationX || 0, 
 			InitRotationY:		parameters.InitRotationY || 0, 
 			InitRotationZ:		parameters.InitRotationZ || 0, 
